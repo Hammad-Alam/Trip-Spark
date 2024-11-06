@@ -1,0 +1,3 @@
+npm create vite@latest is used to create vite project.
+npm i is used to install all relevant dependencies.
+npm run dev is used to run application.
