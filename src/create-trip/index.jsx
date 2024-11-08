@@ -5,7 +5,10 @@ import {
   SelectBudgetOptions,
   SelectTravelsList,
   InterestOptions,
+  AI_PROMPT,
 } from "@/constants/options";
+import { toast } from "sonner";
+import { chatSession } from "@/service/AIModal";
 
 function CreateTrip() {
   const [search, setSearch] = useState("");
@@ -108,13 +111,23 @@ function CreateTrip() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.days) {
-      console.log("Please fill in the required fields.");
+    if (!formData.days || !formData.location) {
+      toast("Please fill in the required fields.");
       return;
     }
-    console.log(formData);
+    const FINAL_PROMPT = AI_PROMPT.replace("{location}", formData.location)
+      .replace("{days}", formData.days)
+      .replace("{travelType}", formData.travelType)
+      .replace("{budget}", formData.budget)
+      .replace("{interest}", formData.interests)
+      .replace("{days}", formData.days);
+
+    console.log(FINAL_PROMPT);
+
+    const result = await chatSession.sendMessage(FINAL_PROMPT);
+    console.log(result?.response?.text());
   };
 
   return (
