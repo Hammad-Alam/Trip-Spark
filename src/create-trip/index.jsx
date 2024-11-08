@@ -12,7 +12,13 @@ function CreateTrip() {
   const [suggestions, setSuggestions] = useState([]);
   const [, setSelectedCity] = useState(null);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
-  // const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    location: "",
+    days: "",
+    budget: "",
+    travelType: "",
+    interests: [],
+  });
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -38,7 +44,6 @@ function CreateTrip() {
               : name.city.toLowerCase().includes(search.toLowerCase()) ||
                 name.country.toLowerCase().includes(search.toLowerCase())
         );
-        console.log("Suggestions:", filteredSuggestions);
         setSuggestions(filteredSuggestions);
       } else {
         setSuggestions([]);
@@ -66,6 +71,7 @@ function CreateTrip() {
           : `${selectedSuggestion.city}, ${selectedSuggestion.country}`;
       setSearch(inputValue);
       setSelectedCity(suggestions[activeSuggestion]);
+      setFormData({ ...formData, location: inputValue });
       setSuggestions([]);
     }
   };
@@ -73,7 +79,42 @@ function CreateTrip() {
   const handleSelect = (suggestion) => {
     setSelectedCity(suggestion);
     setSearch("");
+    const inputValue =
+      typeof suggestion === "string"
+        ? suggestion
+        : `${suggestion.city}, ${suggestion.country}`;
+    setFormData({ ...formData, location: inputValue });
     setSuggestions([]);
+  };
+
+  const handleDaysChange = (e) => {
+    setFormData({ ...formData, days: e.target.value });
+  };
+
+  const handleBudgetSelect = (budget) => {
+    setFormData({ ...formData, budget });
+  };
+
+  const handleTravelTypeSelect = (travelType) => {
+    setFormData({ ...formData, travelType });
+  };
+
+  const handleInterestSelect = (interest) => {
+    setFormData({
+      ...formData,
+      interests: formData.interests.includes(interest)
+        ? formData.interests.filter((i) => i !== interest)
+        : [...formData.interests, interest],
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.days) {
+      console.log("Please fill in the required fields.");
+      return;
+    }
+    console.log(formData);
   };
 
   return (
@@ -81,12 +122,12 @@ function CreateTrip() {
       <h2 className="font-bold text-3xl">
         Tell us your travel preferences ✈🌴
       </h2>
-      <p className="mt-3 text-gray-500 text-xl">
+      <p className="mt-3 text-gray-500 text-base md:text-xl">
         Plan your perfect getaway! Please provide your travel preferences, and
         our AI will curate a personalized itinerary to match your style.
       </p>
 
-      <div className="mt-20">
+      <div className="mt-4 md:mt-20">
         <div>
           <h2 className="text-xl my-3 font-medium">
             Where are you traveling to?
@@ -101,7 +142,7 @@ function CreateTrip() {
               onKeyDown={handleKeyDown}
               className="w-full pl-4 pr-10 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500"
               placeholder="Type city or country"
-            />
+            />{" "}
             {suggestions.length > 0 && (
               <ul className="absolute bg-white overflow-y-auto h-48 w-full border-2 border-gray-200 rounded-lg mt-1">
                 {suggestions.map((suggestion, index) => {
@@ -142,6 +183,8 @@ function CreateTrip() {
           <div className="relative">
             <input
               type="number"
+              value={formData.days}
+              onChange={(e) => handleDaysChange(e)}
               className="w-full pl-4 pr-10 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500"
               placeholder="Ex. 7"
             />
@@ -149,11 +192,15 @@ function CreateTrip() {
         </div>
         <div>
           <h2 className="text-xl my-3 font-medium">What is your Budget?</h2>
-          <div className="grid grid-cols-3 gap-5 mt-5">
+          <div className="grid grid-cols md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
             {SelectBudgetOptions.map((item) => (
               <div
                 key={item.id}
-                className="p-4 border rounded-lg hover:shadow-lg cursor-pointer"
+                className={`p-4 border rounded-lg hover:shadow-lg cursor-pointer ${
+                  formData?.budget == item.title &&
+                  "border-2 border-solid border-[#2E2E2E] shadow-lg"
+                }`}
+                onClick={() => handleBudgetSelect(item.title)}
               >
                 <h2 className="text-4xl">{item.icon}</h2>
                 <h2 className="font-bold text-lg">{item.title}</h2>
@@ -164,11 +211,15 @@ function CreateTrip() {
         </div>
         <div>
           <h2 className="text-xl my-3 font-medium">Select Travel Type</h2>
-          <div className="grid grid-cols-3 gap-5 mt-5">
+          <div className="grid grid-cols md:grid-cols-2 lg:grid-cols-3 gap-5 mt-5">
             {SelectTravelsList.map((item) => (
               <div
                 key={item.id}
-                className="p-4 border rounded-lg hover:shadow-lg cursor-pointer"
+                className={`p-4 border rounded-lg hover:shadow-lg cursor-pointer ${
+                  formData?.travelType == item.people &&
+                  "border-2 border-solid border-[#2E2E2E] shadow-lg"
+                }`}
+                onClick={() => handleTravelTypeSelect(item.people)}
               >
                 <h2 className="text-4xl">{item.icon}</h2>
                 <h2 className="font-bold text-lg">{item.title}</h2>
@@ -179,18 +230,28 @@ function CreateTrip() {
         </div>
         <div>
           <h2 className="text-xl my-3 font-medium">Select Your Interests</h2>
-          <div className="grid grid-cols-3 gap-5 mt-5">
+          <div className="grid grid-cols md:grid-cols-2 xl:grid-cols-3 gap-5 mt-5">
             {InterestOptions.categories.map((category) => (
               <div
                 key={category.id}
-                className="p-4 border rounded-lg hover:shadow-lg cursor-pointer"
+                className={`p-4 border rounded-lg hover:shadow-lg cursor-pointer ${
+                  formData?.interests.includes(category.name) &&
+                  "border-2 border-solid border-[#2E2E2E] shadow-lg"
+                }`}
+                onClick={() => handleInterestSelect(category.name)}
               >
                 <h2 className="text-4xl">{category.icon}</h2>
                 <h3 className="font-bold text-lg">{category.name}</h3>
                 <div className="flex flex-wrap gap-2">
                   {category.subInterests.map((subInterest) => (
                     <div key={subInterest.id}>
-                      <h2 className="bg-[#2E2E2E] hover:bg-transparent hover:border-2 hover:border-gray-700 hover:text-black transition duration-300 ease-in-out text-white text-sm font-medium px-3 py-1 rounded-full w-fit">
+                      <h2
+                        className={`bg-[#2E2E2E] hover:bg-transparent hover:border-2 hover:border-gray-700 hover:text-black transition duration-300 ease-in-out text-white text-sm font-medium px-3 py-1 rounded-full w-fit ${
+                          formData.interests.includes(subInterest.name)
+                            ? "bg-transparent border-2 border-gray-700"
+                            : ""
+                        }`}
+                      >
                         {subInterest.name}
                       </h2>
                     </div>
@@ -201,7 +262,7 @@ function CreateTrip() {
           </div>
         </div>
         <div className="mx-auto justify-center items-center my-10 text-center">
-          <Button>Generate Trip</Button>
+          <Button onClick={handleSubmit}>Generate Trip</Button>
         </div>
       </div>
     </div>
