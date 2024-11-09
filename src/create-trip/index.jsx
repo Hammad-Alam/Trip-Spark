@@ -113,10 +113,21 @@ function CreateTrip() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if token exists in local storage
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      toast("Please login to generate a trip.");
+      return;
+    } else {
+      console.log(token);
+    }
+
     if (!formData.days || !formData.location) {
       toast("Please fill in the required fields.");
       return;
     }
+
     const FINAL_PROMPT = AI_PROMPT.replace("{location}", formData.location)
       .replace("{days}", formData.days)
       .replace("{travelType}", formData.travelType)

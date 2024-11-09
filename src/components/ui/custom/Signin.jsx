@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "../button";
+import { toast } from "sonner";
 
 function Signin() {
   const [credentials, setCredentials] = useState({
@@ -14,7 +15,7 @@ function Signin() {
 
     // Check if all fields are filled
     if (!credentials.email || !credentials.password) {
-      //   props.handleAlert("Please fill in all fields.", "danger");
+      toast("Please fill in all fields.", "danger");
       return;
     }
 
@@ -33,15 +34,15 @@ function Signin() {
 
       const json = await response.json();
       if (json.success) {
-        localStorage.setItem("token", json.authToken);
-        // props.handleAlert("Logged in Successfully!", "success");
+        sessionStorage.setItem("token", json.authToken);
+        toast("Logged in Successfully!");
         navigate("/");
       } else {
-        // props.handleAlert("Please enter correct credentials.", "danger");
+        toast("Please enter correct credentials.");
       }
     } catch (error) {
       console.log(error);
-      //   props.handleAlert("An error occurred. Please try again!", "danger");
+      toast("An error occurred. Please try again!");
     }
   };
 
@@ -49,12 +50,17 @@ function Signin() {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
   return (
-    <div className="flex justify-center items-center my-32 lg:my-44">
+    <div className="flex justify-center items-center mx-4 my-28 lg:my-40">
       <div
         onSubmit={handleSubmit}
-        className="max-w-md w-full mx-auto p-8 bg-white rounded-lg shadow-md"
+        className="max-w-md w-full mx-auto px-8 py-4 bg-white rounded-lg shadow-md"
+        style={{
+          boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        }}
       >
-        <h2 className="text-lg font-bold mb-4">Login</h2>
+        <h2 className="text-lg font-bold text-center mb-4">
+          Sign in to TripSpark
+        </h2>
         <div className="mb-4">
           <label
             htmlFor="email"
@@ -65,6 +71,7 @@ function Signin() {
           <input
             type="email"
             id="email"
+            name="email"
             value={credentials.email}
             onChange={onChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -80,11 +87,22 @@ function Signin() {
           <input
             type="password"
             id="password"
+            name="password"
             value={credentials.password}
             onChange={onChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
-          <Button>Sign In</Button>
+          <div className="mx-auto justify-center items-center text-center">
+            <Button className="mt-4" onClick={handleSubmit}>
+              Sign In
+            </Button>
+          </div>
+          <p className="mt-2 text-sm text-center">
+            Don't have an account?
+            <a href="/signup">
+              <span className="text-[#e74c3c] font-bold">Sign Up</span>
+            </a>
+          </p>
         </div>
       </div>
     </div>

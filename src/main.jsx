@@ -7,6 +7,7 @@ import CreateTrip from "./create-trip/index.jsx";
 import Header from "./components/ui/custom/Header";
 import { Toaster } from "./components/ui/sonner";
 import Signin from "./components/ui/custom/Signin";
+import Signup from "./components/ui/custom/Signup";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     element: <Signin />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
   },
 ]);
 
