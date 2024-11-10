@@ -8,6 +8,7 @@ import Header from "./components/ui/custom/Header";
 import { Toaster } from "./components/ui/sonner";
 import Signin from "./components/ui/custom/Signin";
 import Signup from "./components/ui/custom/Signup";
+import ViewTrip from "./view-trip/[tripId]/index";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/view-trip/:tripId",
+    element: <ViewTrip />,
   },
 ]);
 

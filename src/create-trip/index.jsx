@@ -13,6 +13,7 @@ import { setDoc } from "firebase/firestore";
 import { doc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
 import Spinner from "@/components/ui/custom/Spinner";
+import { useNavigate } from "react-router-dom";
 
 function CreateTrip() {
   const [search, setSearch] = useState("");
@@ -27,6 +28,8 @@ function CreateTrip() {
     travelType: "",
     interests: [],
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -162,6 +165,7 @@ function CreateTrip() {
       id: docId,
     });
     setLoading(false);
+    navigate(`/view-trip/${docId}`);
   };
 
   return (
