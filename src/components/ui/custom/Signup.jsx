@@ -69,7 +69,7 @@ function Signup() {
       const json = await response.json();
 
       if (json.success) {
-        sessionStorage.setItem("token", json.authToken);
+        localStorage.setItem("token", json.authToken);
         toast("Sign up successfully!", "success");
         navigate("/signin"); // Redirect to signin page
       } else {

@@ -34,7 +34,8 @@ function Signin() {
 
       const json = await response.json();
       if (json.success) {
-        sessionStorage.setItem("token", json.authToken);
+        localStorage.setItem("token", json.authToken);
+        localStorage.setItem("email", JSON.stringify(credentials.email));
         toast("Logged in Successfully!");
         navigate("/");
       } else {

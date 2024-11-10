@@ -9,12 +9,17 @@ import {
 } from "@/constants/options";
 import { toast } from "sonner";
 import { chatSession } from "@/service/AIModal";
+import { setDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
+import { db } from "@/service/firebaseConfig";
+import Spinner from "@/components/ui/custom/Spinner";
 
 function CreateTrip() {
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [, setSelectedCity] = useState(null);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     location: "",
     days: "",
@@ -115,12 +120,14 @@ function CreateTrip() {
     e.preventDefault();
 
     // Check if token exists in local storage
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("email");
     if (!token) {
       toast("Please login to generate a trip.");
       return;
     } else {
       console.log(token);
+      console.log(email);
     }
 
     if (!formData.days || !formData.location) {
@@ -128,6 +135,7 @@ function CreateTrip() {
       return;
     }
 
+    setLoading(true);
     const FINAL_PROMPT = AI_PROMPT.replace("{location}", formData.location)
       .replace("{days}", formData.days)
       .replace("{travelType}", formData.travelType)
@@ -139,6 +147,21 @@ function CreateTrip() {
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
     console.log(result?.response?.text());
+    setLoading(false);
+    saveAiTrip(result?.response?.text());
+  };
+
+  const saveAiTrip = async (TripData) => {
+    setLoading(true);
+    const email = JSON.parse(localStorage.getItem("email"));
+    const docId = Date.now().toString();
+    await setDoc(doc(db, "AITrips", docId), {
+      userSelection: formData,
+      tripData: JSON.parse(TripData),
+      userEmail: email,
+      id: docId,
+    });
+    setLoading(false);
   };
 
   return (
@@ -286,7 +309,11 @@ function CreateTrip() {
           </div>
         </div>
         <div className="mx-auto justify-center items-center my-10 text-center">
-          <Button onClick={handleSubmit}>Generate Trip</Button>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Button onClick={handleSubmit}>Generate Trip</Button>
+          )}
         </div>
       </div>
     </div>
