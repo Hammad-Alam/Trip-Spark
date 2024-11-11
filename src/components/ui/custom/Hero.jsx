@@ -15,7 +15,7 @@ function Hero() {
       </p>
 
       <Link to={"/create-trip"}>
-        <Button>Start Planning</Button>
+        <Button className="hover:border-none">Start Planning</Button>
       </Link>
     </div>
   );

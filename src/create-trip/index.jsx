@@ -316,7 +316,9 @@ function CreateTrip() {
           {loading ? (
             <Spinner />
           ) : (
-            <Button onClick={handleSubmit}>Generate Trip</Button>
+            <Button onClick={handleSubmit} className="hover:border-none">
+              Generate Trip
+            </Button>
           )}
         </div>
       </div>

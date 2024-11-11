@@ -19,14 +19,15 @@ function Header() {
     <div className="p-3 shadow-sm flex justify-between items-center px-5">
       <img src={Logo} alt="Company Logo" className="w-32 h-14" />
       <div className="flex gap-4">
-        {!isAuthenticated && (
+        {!isAuthenticated ? (
           <a href="/signin">
-            <Button>Sign In</Button>
+            <Button className="hover:border-none">Sign In</Button>
           </a>
-        )}
-        {isAuthenticated && (
+        ) : (
           <a href="/">
-            <Button onClick={handleLogout}>Logout</Button>
+            <Button onClick={handleLogout} className="hover:border-none">
+              Logout
+            </Button>
           </a>
         )}
       </div>

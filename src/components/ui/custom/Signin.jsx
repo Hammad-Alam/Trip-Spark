@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "../button";
 import { toast } from "sonner";
@@ -8,7 +8,7 @@ function Signin() {
     email: "",
     password: "",
   });
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Reload the page
@@ -35,9 +35,11 @@ function Signin() {
       const json = await response.json();
       if (json.success) {
         localStorage.setItem("token", json.authToken);
+        window.location.replace("/");
+        // window.location.reload();
         localStorage.setItem("email", JSON.stringify(credentials.email));
         toast("Logged in Successfully!");
-        navigate("/");
+        // navigate("/");
       } else {
         toast("Please enter correct credentials.");
       }
@@ -94,7 +96,7 @@ function Signin() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           <div className="mx-auto justify-center items-center text-center">
-            <Button className="mt-4" onClick={handleSubmit}>
+            <Button className="mt-4 hover:border-none" onClick={handleSubmit}>
               Sign In
             </Button>
           </div>

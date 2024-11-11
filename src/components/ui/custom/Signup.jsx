@@ -161,7 +161,7 @@ function Signup() {
           />
         </div>
         <div className="mx-auto justify-center items-center text-center">
-          <Button className="mt-4" onClick={handleSubmit}>
+          <Button className="mt-4 hover:border-none" onClick={handleSubmit}>
             Sign Up
           </Button>
         </div>
