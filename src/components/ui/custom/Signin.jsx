@@ -53,7 +53,7 @@ function Signin() {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
   return (
-    <div className="flex justify-center items-center mx-4 my-28 lg:my-40">
+    <div className="flex justify-center items-center mx-4 my-28 lg:my-36">
       <div
         onSubmit={handleSubmit}
         className="max-w-md w-full mx-auto px-8 py-4 bg-white rounded-lg shadow-md"
@@ -96,7 +96,15 @@ function Signin() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           <div className="mx-auto justify-center items-center text-center">
-            <Button className="mt-4 hover:border-none" onClick={handleSubmit}>
+            <Button
+              className="mt-4 hover:border-none"
+              onClick={handleSubmit}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSubmit();
+                }
+              }}
+            >
               Sign In
             </Button>
           </div>

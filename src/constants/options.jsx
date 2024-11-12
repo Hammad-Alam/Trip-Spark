@@ -1,3 +1,7 @@
+import image1 from "../assets/image1.png";
+import image2 from "../assets/image2.png";
+import image3 from "../assets/image3.png";
+
 export const SelectTravelsList = [
   {
     id: 1,
@@ -114,6 +118,21 @@ export const InterestOptions = {
     },
   ],
 };
+
+export const slideImages = [
+  {
+    url: image1,
+    caption: "ai-trip",
+  },
+  {
+    url: image2,
+    caption: "trip-planning",
+  },
+  {
+    url: image3,
+    caption: "aeroplane",
+  },
+];
 
 export const AI_PROMPT =
   "Generate Travel Plan for Location: {location}, for {days} Days for {travelType} with a {budget} Budget including {interest} interest, Give me a 4 Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions, and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating, Time travel each of the location for {days} days with each day plan with best time to visit in JSON format.";

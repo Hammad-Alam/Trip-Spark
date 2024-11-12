@@ -9,6 +9,7 @@ import { Toaster } from "./components/ui/sonner";
 import Signin from "./components/ui/custom/Signin";
 import Signup from "./components/ui/custom/Signup";
 import ViewTrip from "./view-trip/[tripId]/index";
+import Footer from "./components/ui/custom/Footer";
 
 const router = createBrowserRouter([
   {
@@ -38,5 +39,6 @@ createRoot(document.getElementById("root")).render(
     <Header />
     <Toaster />
     <RouterProvider router={router} />
+    <Footer />
   </StrictMode>
 );

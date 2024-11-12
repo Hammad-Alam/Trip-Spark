@@ -16,8 +16,8 @@ function Header() {
   };
 
   return (
-    <div className="p-3 shadow-sm flex justify-between items-center px-5">
-      <img src={Logo} alt="Company Logo" className="w-32 h-14" />
+    <div className="px-2 shadow-sm flex justify-between items-center lg:px-5">
+      <img src={Logo} alt="Company Logo" className="w-48 h-24 pr-20 md:pr-0" />
       <div className="flex gap-4">
         {!isAuthenticated ? (
           <a href="/signin">

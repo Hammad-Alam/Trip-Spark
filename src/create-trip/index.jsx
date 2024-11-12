@@ -316,7 +316,15 @@ function CreateTrip() {
           {loading ? (
             <Spinner />
           ) : (
-            <Button onClick={handleSubmit} className="hover:border-none">
+            <Button
+              onClick={handleSubmit}
+              className="hover:border-none"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSubmit();
+                }
+              }}
+            >
               Generate Trip
             </Button>
           )}

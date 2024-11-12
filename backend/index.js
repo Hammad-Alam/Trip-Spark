@@ -13,7 +13,7 @@ app.use("/api/auth", require("./routes/auth")); // Authentication routes
 
 // Start server and listen on specified port
 app.listen(port, () => {
-  console.log(`CareerNest backend listening on port: http://localhost:${port}`);
+  console.log(`TripSpark backend listening on port: http://localhost:${port}`);
 });
 
 // Establish connection to MongoDB

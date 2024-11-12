@@ -161,7 +161,15 @@ function Signup() {
           />
         </div>
         <div className="mx-auto justify-center items-center text-center">
-          <Button className="mt-4 hover:border-none" onClick={handleSubmit}>
+          <Button
+            className="mt-4 hover:border-none"
+            onClick={handleSubmit}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSubmit();
+              }
+            }}
+          >
             Sign Up
           </Button>
         </div>

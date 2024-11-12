@@ -28,7 +28,7 @@ function PlaceCardItem({ place }) {
         className="
           border rounded-xl p-3 mt-2 flex flex-col 
           md:flex-row gap-5 hover:scale-105 transition-all 
-          md:h-[190px] lg:h-[220px] xl:h-[250px]
+          md:h-[200px]
         "
       >
         <img
