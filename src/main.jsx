@@ -10,6 +10,7 @@ import Signin from "./components/ui/custom/Signin";
 import Signup from "./components/ui/custom/Signup";
 import ViewTrip from "./view-trip/[tripId]/index";
 import Footer from "./components/ui/custom/Footer";
+import MyTrips from "./my-trips";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/view-trip/:tripId",
     element: <ViewTrip />,
+  },
+  {
+    path: "/view-trip/myTrips",
+    element: <MyTrips />,
   },
 ]);
 

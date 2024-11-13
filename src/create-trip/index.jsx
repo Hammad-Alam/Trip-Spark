@@ -21,6 +21,7 @@ function CreateTrip() {
   const [, setSelectedCity] = useState(null);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [hide, setHide] = useState(true);
   const [formData, setFormData] = useState({
     location: "",
     days: "",
@@ -48,6 +49,7 @@ function CreateTrip() {
       );
 
       if (search.length > 2) {
+        setHide(false);
         const filteredSuggestions = [...countryNames, ...cityNames].filter(
           (name) =>
             typeof name === "string"
@@ -81,6 +83,7 @@ function CreateTrip() {
           ? selectedSuggestion
           : `${selectedSuggestion.city}, ${selectedSuggestion.country}`;
       setSearch(inputValue);
+      setHide(true);
       setSelectedCity(suggestions[activeSuggestion]);
       setFormData({ ...formData, location: inputValue });
       setSuggestions([]);
@@ -95,6 +98,7 @@ function CreateTrip() {
         ? suggestion
         : `${suggestion.city}, ${suggestion.country}`;
     setFormData({ ...formData, location: inputValue });
+    setHide(false);
     setSuggestions([]);
   };
 
@@ -158,12 +162,22 @@ function CreateTrip() {
     setLoading(true);
     const email = JSON.parse(localStorage.getItem("email"));
     const docId = Date.now().toString();
-    await setDoc(doc(db, "AITrips", docId), {
-      userSelection: formData,
-      tripData: JSON.parse(TripData),
-      userEmail: email,
-      id: docId,
-    });
+    console.log("TripData:", TripData, typeof TripData);
+
+    try {
+      const parsedTripData =
+        typeof TripData === "object" ? TripData : JSON.parse(TripData);
+      await setDoc(doc(db, "AITrips", docId), {
+        userSelection: formData,
+        tripData: parsedTripData,
+        userEmail: email,
+        id: docId,
+      });
+    } catch (error) {
+      console.error("Error parsing TripData:", error);
+      // Handle the error or provide a default value
+    }
+
     setLoading(false);
     navigate(`/view-trip/${docId}`);
   };
@@ -228,18 +242,22 @@ function CreateTrip() {
           </div>
         </div>
         <div>
-          <h2 className="text-xl my-3 font-medium">
-            How many days are you planning your trip?
-          </h2>
-          <div className="relative">
-            <input
-              type="number"
-              value={formData.days}
-              onChange={(e) => handleDaysChange(e)}
-              className="w-full pl-4 pr-10 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500"
-              placeholder="Ex. 7"
-            />
-          </div>
+          {!(search.length > 2 && !formData.location) && (
+            <div>
+              <h2 className="text-xl my-3 font-medium">
+                How many days are you planning your trip?
+              </h2>
+              <div className="relative">
+                <input
+                  type="number"
+                  value={formData.days}
+                  onChange={(e) => handleDaysChange(e)}
+                  className="w-full pl-4 pr-10 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500"
+                  placeholder="Ex. 7"
+                />
+              </div>
+            </div>
+          )}
         </div>
         <div>
           <h2 className="text-xl my-3 font-medium">What is your Budget?</h2>

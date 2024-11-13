@@ -11,13 +11,18 @@ function InfoSection({ trip }) {
     const fetchImage = async () => {
       const location = trip?.userSelection?.location;
       const response = await axios.get(
-        `https://api.unsplash.com/search/photos?client_id=qyD8R8gMJgaGtCcEsIYSvZKHzL6ZhW4AvJ2-5HEEzsg&query=${location}&orientation=landscape`
+        `https://api.unsplash.com/search/photos?client_id=qyD8R8gMJgaGtCcEsIYSvZKHzL6ZhW4AvJ2-5HEEzsg&query=${location} cityscape&orientation=landscape`
       );
-      const photo = response.data.results[0];
+
+      // Select a random image from the results
+      const randomIndex = Math.floor(
+        Math.random() * response.data.results.length
+      );
+      const photo = response.data.results[randomIndex];
       setImageURL(photo.urls.regular);
     };
     fetchImage();
-  }, [location]);
+  }, [trip?.userSelection?.location]);
 
   return (
     <div>
