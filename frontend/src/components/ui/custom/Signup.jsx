@@ -52,7 +52,7 @@ function Signup() {
     // Proceed with API call
     try {
       const response = await fetch(
-        "https://trip-spark-backend.vercel.app/api/auth/createuser",
+        "http://localhost:5000/api/auth/createuser",
         {
           method: "POST",
           headers: {
