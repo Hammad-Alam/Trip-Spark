@@ -11,6 +11,7 @@ import Signup from "./components/ui/custom/Signup";
 import ViewTrip from "./view-trip/[tripId]/index";
 import Footer from "./components/ui/custom/Footer";
 import MyTrips from "./my-trips";
+import ProfileInfo from "./components/ui/custom/ProfileInfo";
 
 const router = createBrowserRouter([
   {
@@ -45,5 +46,6 @@ createRoot(document.getElementById("root")).render(
     <Toaster />
     <RouterProvider router={router} />
     <Footer />
+    {/* <ProfileInfo /> */}
   </StrictMode>
 );
