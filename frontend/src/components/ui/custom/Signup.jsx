@@ -12,6 +12,9 @@ function Signup() {
   });
   let navigate = useNavigate();
 
+  const backendURI =
+    import.meta.env.VITE_BACKEND_URI || "http://localhost:5000";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -51,20 +54,17 @@ function Signup() {
 
     // Proceed with API call
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/auth/createuser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: credentials.name,
-            email: credentials.email,
-            password: credentials.password,
-          }),
-        }
-      );
+      const response = await fetch(`${backendURI}/api/auth/createuser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: credentials.name,
+          email: credentials.email,
+          password: credentials.password,
+        }),
+      });
 
       const json = await response.json();
 

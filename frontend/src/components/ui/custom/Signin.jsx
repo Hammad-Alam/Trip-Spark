@@ -1,4 +1,3 @@
-// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "../button";
 import { toast } from "sonner";
@@ -8,7 +7,9 @@ function Signin() {
     email: "",
     password: "",
   });
-  // let navigate = useNavigate();
+
+  const backendURI =
+    import.meta.env.VITE_BACKEND_URI || "http://localhost:5000";
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Reload the page
@@ -21,7 +22,7 @@ function Signin() {
 
     // Proceed to API Call
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${backendURI}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,10 +37,8 @@ function Signin() {
       if (json.success) {
         localStorage.setItem("token", json.authToken);
         window.location.replace("/");
-        // window.location.reload();
         localStorage.setItem("email", JSON.stringify(credentials.email));
         toast("Logged in Successfully!");
-        // navigate("/");
       } else {
         toast("Please enter correct credentials.");
       }
