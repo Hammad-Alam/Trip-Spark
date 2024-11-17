@@ -6,7 +6,7 @@ function PlacesToVisit({ trip }) {
       <h2 className="font-bold text-lg">Places to Visit</h2>
 
       <div>
-        {trip.tripData?.itinerary.map((item, index) => (
+        {trip?.tripData?.itinerary.map((item, index) => (
           <div key={index}>
             <h2 className="font-medium text-lg">{item.day}</h2>
             <div className="grid xl:grid-cols-2 gap-5">
